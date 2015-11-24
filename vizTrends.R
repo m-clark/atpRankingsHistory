@@ -24,7 +24,7 @@ rankHistoryAll %>%
   layer_paths(strokeOpacity:=.05) %>%
   layer_paths(stroke=~Player, strokeOpacity:=1, data=big4) %>%
   scale_numeric("y", reverse=T) %>%
-  scale_nominal("stroke", range=brewer.pal(4, 'Set2')) %>%
+  scale_nominal("stroke", range=RColorBrewer::brewer.pal(4, 'Set2')) %>%
   add_axis('x', grid=F,
            properties = axis_props(
              labels = list(

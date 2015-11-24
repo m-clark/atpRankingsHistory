@@ -23,7 +23,7 @@ rankhistLinks = paste0('http://www.atpworldtour.com', str_replace_all(mainLinks,
 
 # get the rankings history pages, and the second table on each is the history, also class = 'mega-table'
 rankhistPages = sapply(rankhistLinks, function(x) html_table(html(x), header=T), simplify=F)
-rankHistory = lapply(rankhistPages,  function(x) x[[2]]) # second table is the one of interest
+rankHistory = lapply(rankhistPages,  function(x) x[[1]]) # second table is the one of interest sometimes
 
 # add names as columns
 rankHistory2 = mapply(function(x,y) cbind(x, Player=y),
