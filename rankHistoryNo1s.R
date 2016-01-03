@@ -3,7 +3,7 @@
 library(rvest)
 
 # grab current ranks if desired
-atp <- html("http://www.atpworldtour.com/en/rankings/former-no-1s")
+atp <- read_html("http://www.atpworldtour.com/en/rankings/former-no-1s")
 no1Ranks = atp %>%
   html_table(header = T) %>%
   `[[`(1)
@@ -22,12 +22,12 @@ mainLinks = grep(mainLinks, pattern='/overview', value=T)
 rankhistLinks = paste0('http://www.atpworldtour.com', str_replace_all(mainLinks, 'overview', 'rankings-history'))
 
 # get the rankings history pages, and the second table on each is the history, also class = 'mega-table'
-rankhistPages = sapply(rankhistLinks, function(x) html_table(html(x), header=T), simplify=F)
-rankHistory = lapply(rankhistPages,  function(x) x[[1]]) # second table is the one of interest sometimes
+rankhistPages = sapply(rankhistLinks, function(x) html_table(read_html(x), header=T), simplify=F) # sometimes throws a 500 error depending on their website
+rankHistory = lapply(rankhistPages,  function(x) x[[2]]) # first or second table is the one of interest sometimes depending on their website
 
 # add names as columns
 rankHistory2 = mapply(function(x,y) cbind(x, Player=y),
-                      x=rankHistory, y=as.list(curranks$Player), SIMPLIFY=F)
+                      x=rankHistory, y=as.list(no1Ranks$Player), SIMPLIFY=F)
 
 head(rankHistory2[[1]])
 #

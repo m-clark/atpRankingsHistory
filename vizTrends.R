@@ -55,41 +55,7 @@ rankHistoryAll %>%
   ))
 
 
-
-rankHistoryAll %>%
-  filter(Singles<=5) %>%
-  droplevels %>%
-  ggvis(~Date, ~Singles) %>%
-  group_by(Player) %>%
-  layer_guess(stroke=~Player, strokeOpacity:=.5) %>%
-  scale_numeric("y", reverse=T) %>%
-  add_axis('x', grid=F, properties = axis_props(
-    labels = list(
-      fill = "black",
-      fillOpacity = .5,
-      angle = 45,
-      fontSize = 14,
-      align = "left",
-      baseline = "middle",
-      dx = 3),
-    title = list(fill = "black",
-                 fillOpacity = .75,
-                 dy=20),
-    axis = list(stroke = "black",
-                strokeOpacity = .5)
-  )) %>%
-  add_axis('y', grid=F, properties = axis_props(
-    labels = list(
-      fill = "black",
-      fillOpacity = .5,
-      fontSize = 14,
-      dx = 3),
-    title = list(fill = "black",
-                 fillOpacity = .75),
-    axis = list(stroke = "black",
-                strokeOpacity = .5)
-  ))
-
+# all of them; fairly ugly
 # rankHistoryNo1s %>%
 #   filter(Singles<=100) %>%
 #   ggvis(~Date, ~Singles) %>%
@@ -126,9 +92,8 @@ rankHistoryAll %>%
 
 
 no1Ranks %>%
-  # rename(TotalWeeksNo1 = `Total Weeks At No. 1`,)
   ggvis(~`Total Weeks At No. 1`, ~`Max Consecutive Weeks At No. 1`) %>%
-  layer_text(text:=~Player, stroke:=NA, fill=~Player,fontSize=~`Year-End No. 1s`) %>%
+  layer_text(text:=~Player, stroke:=NA, fill=~Player, fillOpacity:=.75, fontSize=~`Year-End No. 1s`, align:='center') %>%
   add_axis('x', grid=F, properties = axis_props(
     labels = list(
       fill = "black",
@@ -157,15 +122,4 @@ no1Ranks %>%
   )) %>%
   hide_legend('fill')
 
-
-
-
-#   add_legend('fill', properties = legend_props(
-#     title = list(fill='black',
-#                  fillOpacity=.75),
-#     labels = list(fill='black',
-#                   fillOpacity=.5)
-#   )) %>%
-#   hide_legend('stroke') %>%
-#   set_options(renderer="canvas")  # because of the
 

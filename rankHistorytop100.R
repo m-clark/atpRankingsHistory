@@ -3,7 +3,7 @@
 library(rvest)
 
 # grab current ranks if desired
-atp <- html("http://www.atpworldtour.com/en/rankings/singles")
+atp <- read_html("http://www.atpworldtour.com/en/rankings/singles")
 curranks = atp %>%
   html_table(header = T) %>%
   `[[`(1)
@@ -20,19 +20,24 @@ rankhistLinks = atp %>%
   paste0('http://www.atpworldtour.com', .)
 
 
-# get the rankings history pages, and the second table on each is the history, also class = 'mega-table'
+# get the rankings history pages, and the second table on each is the history,
+# also class = 'mega-table'
+# atp has a broken link for Daniel Muñoz de la Nava that hasn't been fixed since
+# October of 2015, probably because of the ñ coupled with typical web designer
+# carelessness; at end of 2015 he was ranked 75th
+
 library(parallel)
 cl = makeCluster(6)
 clusterExport(cl, 'rankhistLinks')
 clusterEvalQ(cl, library(rvest))
 
-rankHistory = parSapply(cl, rankhistLinks, function(x) html_table(html_node(html(x), 'table.mega-table'), header=T), simplify=F)
+rankHistory = parSapply(cl, rankhistLinks[-75], function(x) html_table(html_node(read_html(x), 'table.mega-table'), header=T), simplify=F)
 
 stopCluster(cl)
 
 # add names as column
 rankHistory2 = mapply(function(x, y) cbind(x, Player=y),
-                      x=rankHistory, y=as.list(curranks$Player), SIMPLIFY=F)
+                      x=rankHistory, y=as.list(curranks$Player)[-75], SIMPLIFY=F)
 
 # check
 head(rankHistory2[[1]])
