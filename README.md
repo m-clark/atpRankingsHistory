@@ -9,3 +9,7 @@ A look at the big 4. The code grabs data from the ATP website, problematic as it
 Size is based on years ended with number 1 ranking.
 
 ![](alltimegreats.png)
+
+Opacity based on number of slams.
+
+![](alltimegreatsslamfade.png)

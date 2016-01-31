@@ -93,7 +93,7 @@ rankHistoryAll %>%
 
 no1Ranks %>%
   ggvis(~`Total Weeks At No. 1`, ~`Max Consecutive Weeks At No. 1`) %>%
-  layer_text(text:=~Player, stroke:=NA, fill=~Player, fillOpacity:=.75, fontSize=~`Year-End No. 1s`, align:='center') %>%
+  layer_text(text:=~Player, stroke:=NA, fill=~Player, fillOpacity=~Slams, fontSize=~`Year-End No. 1s`, align:='center') %>%
   add_axis('x', grid=F, properties = axis_props(
     labels = list(
       fill = "black",
